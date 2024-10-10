@@ -1,5 +1,7 @@
 package main
 
+import "tiny-dns/server"
+
 func main() {
-	print("hello world")
+	server.Start()
 }
