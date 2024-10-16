@@ -14,6 +14,7 @@ func Start() {
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt)
 	var tcpServer *dns.Server
+	dnsHandler := &DnsHandler{}
 	go func() {
 		if common.DnsConfig.Server.Port < 1 {
 			log.Println("Server port must be a positive integer")
@@ -21,8 +22,9 @@ func Start() {
 		}
 
 		tcpServer = &dns.Server{
-			Addr: common.DnsConfig.Server.Host + ":" + strconv.Itoa(common.DnsConfig.Server.Port),
-			Net:  "tcp",
+			Addr:    common.DnsConfig.Server.Host + ":" + strconv.Itoa(common.DnsConfig.Server.Port),
+			Net:     "tcp",
+			Handler: dnsHandler,
 		}
 	}()
 
