@@ -2,8 +2,8 @@ package common
 
 import (
 	"gopkg.in/yaml.v3"
-	"io/ioutil"
 	"log"
+	"os"
 )
 
 type Config struct {
@@ -13,16 +13,16 @@ type Config struct {
 	} `yaml:"server"`
 }
 
+var DnsConfig *Config
+
 // LoadConfig load the yaml config
 func LoadConfig() error {
-	data, err := ioutil.ReadFile("config.yaml")
+	data, err := os.ReadFile("config.yaml")
 	if err != nil {
 		log.Fatalf("error: %v", err)
 	}
 
-	// parse yaml
-	var config Config
-	err = yaml.Unmarshal(data, &config)
+	err = yaml.Unmarshal(data, DnsConfig)
 	if err != nil {
 		log.Fatalf("error: %v", err)
 		return err
